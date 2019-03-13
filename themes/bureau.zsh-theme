@@ -87,7 +87,11 @@ else
   _USERNAME="%{$fg_bold[white]%}%n"
   _LIBERTY="%{$fg[green]%}$"
 fi
-_USERNAME="$_USERNAME%{$reset_color%}@%m"
+if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+  _USERNAME="$_USERNAME%{$reset_color%}@%m "
+else
+  _USERNAME=""
+fi
 _LIBERTY="$_LIBERTY%{$reset_color%}"
 
 
@@ -106,7 +110,7 @@ get_space () {
   echo $SPACES
 }
 
-_1LEFT="$_USERNAME $_PATH"
+_1LEFT="$_USERNAME$_PATH"
 _1RIGHT="[%*] "
 
 bureau_precmd () {
